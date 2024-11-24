@@ -22,6 +22,17 @@ public final class Nova extends JavaPlugin {
     public void onEnable() {
         new Listeners(this);
         new Select(this);
+        addRecipes();
+        System.out.println("Nova Plugin Has Been Started!");
+    }
+
+    @Override
+    public void onDisable() {
+        getServer().clearRecipes();
+        System.out.println("Nova Plugin Has Been Stopped!");
+    }
+
+    private void addRecipes(){
         ItemStack itemPortato = new ItemStack(Material.ECHO_SHARD);
         ItemMeta itemMeta = itemPortato.getItemMeta();
         itemMeta.setDisplayName("Level Upgrader"); // Set custom name
@@ -56,12 +67,5 @@ public final class Nova extends JavaPlugin {
         ReviveBeacon_recipie.setIngredient('B', Material.BEACON);
         ReviveBeacon_recipie.setIngredient('R', Material.REDSTONE);
         getServer().addRecipe(ReviveBeacon_recipie);
-        System.out.println("Nova Plugin Has Been Started!");
-    }
-
-    @Override
-    public void onDisable() {
-        getServer().clearRecipes();
-        System.out.println("Nova Plugin Has Been Stopped!");
     }
 }
