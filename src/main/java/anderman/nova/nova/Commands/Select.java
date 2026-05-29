@@ -1,8 +1,6 @@
 package anderman.nova.nova.Commands;
 
 import anderman.nova.nova.Nova;
-import org.bukkit.BanList;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,100 +22,86 @@ public class Select implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
+        if (!(commandSender instanceof Player)) {
+            commandSender.sendMessage(ChatColor.RED + "Only players can select Nova abilities.");
+            return true;
+        }
+
         HashMap<UUID, String> abilties = plugin.active_abilities;
         HashMap<UUID, Integer> level = plugin.levels;
         HashMap<UUID, String> trims = plugin.trims;
         Player p = (Player) commandSender;
         if (args.length == 0) {
             p.sendMessage(ChatColor.RED + "No Ability Was Selected");
+            return true;
         }
+
+        String selectedAbility = args[0].toLowerCase();
+        int playerLevel = level.getOrDefault(p.getUniqueId(), 0);
+        String trim = trims.get(p.getUniqueId());
+        if (trim == null) {
+            p.sendMessage(ChatColor.RED + "You do not have a trim selected yet.");
+            return true;
+        }
+
         if (trims.get(p.getUniqueId()).equalsIgnoreCase("Wind Trim")) {
-            if (args[0].equalsIgnoreCase("levitate")) {
-                if (level.get(p.getUniqueId()) >= 2) {
-                    abilties.put(p.getUniqueId(), "Levitate");
-                    p.sendMessage(ChatColor.GREEN + "Your ability Levitation has been select from Trim " + trims.get(p.getUniqueId()));
-                } else {
-                    p.sendMessage(ChatColor.RED + "You don't have that level which has that ability");
-                }
-            } else if (args[0].equalsIgnoreCase("slowfall")) {
-                if (level.get(p.getUniqueId()) >= 3) {
-                    abilties.put(p.getUniqueId(), "Slow_Falling");
-                    p.sendMessage(ChatColor.GREEN + "Your ability Slow Falling has been select from Trim " + trims.get(p.getUniqueId()));
-                }
-            } else if (args[0].equalsIgnoreCase("launch")) {
-                if (level.get(p.getUniqueId()) >= 4) {
-                    abilties.put(p.getUniqueId(), "Launch");
-                    p.sendMessage(ChatColor.GREEN + "Your ability Launch has been select from Trim " + trims.get(p.getUniqueId()));
-                }
-            } else if (args[0].equalsIgnoreCase("jumpboost")) {
-                if (level.get(p.getUniqueId()) >= 5) {
-                    abilties.put(p.getUniqueId(), "DoubleJump");
-                    p.sendMessage(ChatColor.GREEN + "Your ability Double Jump has been select from Trim " + trims.get(p.getUniqueId()));
-                }
-            } else if (args[0].equalsIgnoreCase("blackhole")) {
-                if (level.get(p.getUniqueId()) == 6) {
-                    abilties.put(p.getUniqueId(), "BlackHole");
-                    p.sendMessage(ChatColor.GREEN + "Your ability Black Hole has been select from Trim " + trims.get(p.getUniqueId()));
-                }
+            if (selectedAbility.equals("levitate")) {
+                selectAbility(p, abilties, "Levitate", "Levitation", 2, playerLevel);
+            } else if (selectedAbility.equals("slowfall")) {
+                selectAbility(p, abilties, "Slow_Falling", "Slow Falling", 3, playerLevel);
+            } else if (selectedAbility.equals("launch")) {
+                selectAbility(p, abilties, "Launch", "Launch", 4, playerLevel);
+            } else if (selectedAbility.equals("jumpboost")) {
+                selectAbility(p, abilties, "DoubleJump", "Double Jump", 5, playerLevel);
+            } else if (selectedAbility.equals("blackhole")) {
+                selectAbility(p, abilties, "BlackHole", "Black Hole", 6, playerLevel);
+            } else {
+                p.sendMessage(ChatColor.RED + "That ability is not available for Wind Trim.");
             }
         } else if (trims.get(p.getUniqueId()).equalsIgnoreCase("Water Trim")) {
-            if (args[0].equalsIgnoreCase("suffocate")) {
-                if (level.get(p.getUniqueId()) >= 5) {
-                    abilties.put(p.getUniqueId(), "Suffocation");
-                    p.sendMessage(ChatColor.GREEN + "Your ability Suffocation has been select from Trim " + trims.get(p.getUniqueId()));
-                }
-            } else if (args[0].equalsIgnoreCase("water")) {
-                if (level.get(p.getUniqueId()) >= 5) {
-                    abilties.put(p.getUniqueId(), "Water");
-                    p.sendMessage(ChatColor.GREEN + "Your ability Water Placing has been select from Trim " + trims.get(p.getUniqueId()));
-                }
-            } else if (args[0].equalsIgnoreCase("jerk")) {
-                if (level.get(p.getUniqueId()) == 6) {
-                    abilties.put(p.getUniqueId(), "Jerk");
-                    p.sendMessage(ChatColor.GREEN + "Your ability Jerking has been select from Trim " + trims.get(p.getUniqueId()));
-                }
+            if (selectedAbility.equals("suffocate")) {
+                selectAbility(p, abilties, "Suffocation", "Suffocation", 5, playerLevel);
+            } else if (selectedAbility.equals("water")) {
+                selectAbility(p, abilties, "Water", "Water Placing", 5, playerLevel);
+            } else if (selectedAbility.equals("jerk")) {
+                selectAbility(p, abilties, "Jerk", "Jerk", 6, playerLevel);
+            } else {
+                p.sendMessage(ChatColor.RED + "That ability is not available for Water Trim.");
             }
         } else if (trims.get(p.getUniqueId()).equalsIgnoreCase("Fire Trim")) {
-            if (args[0].equalsIgnoreCase("dash")) {
-                if (level.get(p.getUniqueId()) >= 3) {
-                    abilties.put(p.getUniqueId(), "Dashing");
-                    p.sendMessage(ChatColor.GREEN + "Your ability Dashing has been select from Trim " + trims.get(p.getUniqueId()));
-                } else if (args[0].equalsIgnoreCase("deflect")) {
-                    if (level.get(p.getUniqueId()) >= 4) {
-                        abilties.put(p.getUniqueId(), "Deflecting");
-                        p.sendMessage(ChatColor.GREEN + "Your ability Deflecting has been select from Trim " + trims.get(p.getUniqueId()));
-                    }
-                }
-                if (level.get(p.getUniqueId()) >= 5) {
-                    if (args[0].equalsIgnoreCase("fireball")) {
-                        abilties.put(p.getUniqueId(), "FireBall");
-                        p.sendMessage(ChatColor.GREEN + "Your ability Fire Ball has been select from Trim " + trims.get(p.getUniqueId()));
-                    }
-                }
-                if (level.get(p.getUniqueId()) == 6) {
-                    if (args[0].equalsIgnoreCase("firecircle")) {
-                        abilties.put(p.getUniqueId(), "FireCircle");
-                        p.sendMessage(ChatColor.GREEN + "Your ability Fire Circle has been select from Trim " + trims.get(p.getUniqueId()));
-                    }
-                }
-            } else if (trims.get(p.getUniqueId()).equalsIgnoreCase("Time Trim")) {
-                if (level.get(p.getUniqueId()) >= 4) {
-                    if (args[0].equalsIgnoreCase("slowness")) {
-                        abilties.put(p.getUniqueId(), "Slowness");
-                        p.sendMessage(ChatColor.GREEN + "Your ability Slowness has been select from Trim " + trims.get(p.getUniqueId()));
-                    } else if (args[0].equalsIgnoreCase("slowmining")) {
-                        abilties.put(p.getUniqueId(), "Mining_Fatigue");
-                        p.sendMessage(ChatColor.GREEN + "Your ability Mining Fatigue has been select from Trim " + trims.get(p.getUniqueId()));
-                    }
-                    if (level.get(p.getUniqueId()) == 6) {
-                        if (args[0].equalsIgnoreCase("slowtime")) {
-                            abilties.put(p.getUniqueId(), "SlowTime");
-                            p.sendMessage(ChatColor.GREEN + "Your ability SlowTime has been select from Trim " + trims.get(p.getUniqueId()));
-                        }
-                    }
-                }
+            if (selectedAbility.equals("dash")) {
+                selectAbility(p, abilties, "Dashing", "Dashing", 3, playerLevel);
+            } else if (selectedAbility.equals("deflect")) {
+                selectAbility(p, abilties, "Deflecting", "Deflecting", 4, playerLevel);
+            } else if (selectedAbility.equals("fireball")) {
+                selectAbility(p, abilties, "FireBall", "Fire Ball", 5, playerLevel);
+            } else if (selectedAbility.equals("firecircle")) {
+                selectAbility(p, abilties, "FireCircle", "Fire Circle", 6, playerLevel);
+            } else {
+                p.sendMessage(ChatColor.RED + "That ability is not available for Fire Trim.");
             }
+        } else if (trims.get(p.getUniqueId()).equalsIgnoreCase("Time Trim")) {
+            if (selectedAbility.equals("slowness")) {
+                selectAbility(p, abilties, "Slowness", "Slowness", 3, playerLevel);
+            } else if (selectedAbility.equals("slowmining")) {
+                selectAbility(p, abilties, "Mining_Fatigue", "Mining Fatigue", 4, playerLevel);
+            } else if (selectedAbility.equals("slowtime")) {
+                selectAbility(p, abilties, "SlowTime", "Slow Time", 6, playerLevel);
+            } else {
+                p.sendMessage(ChatColor.RED + "That ability is not available for Time Trim.");
+            }
+        } else if (trims.get(p.getUniqueId()).equalsIgnoreCase("Power Trim")) {
+            p.sendMessage(ChatColor.RED + "Power Trim abilities are passive and cannot be selected.");
         }
         return true;
+    }
+
+    private void selectAbility(Player player, HashMap<UUID, String> abilities, String abilityKey, String displayName, int requiredLevel, int playerLevel) {
+        if (playerLevel >= requiredLevel) {
+            abilities.put(player.getUniqueId(), abilityKey);
+            player.sendMessage(ChatColor.GREEN + displayName + " selected.");
+        } else {
+            player.sendMessage(ChatColor.RED + displayName + " requires level " + requiredLevel + ".");
+        }
     }
 }

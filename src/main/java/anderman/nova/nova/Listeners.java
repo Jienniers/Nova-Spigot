@@ -484,11 +484,11 @@ public class Listeners implements Listener {
                                 if (abilties.get(p.getUniqueId()).equals("Dashing")) {
                                     dash(p);
                                 } else if (abilties.get(p.getUniqueId()).equals("Deflecting")) {
-                                    deflect.put(p.getUniqueId(), p);
+                                    activateDeflect(p);
                                 }
                             } else {
                                 if (!delfect_cooldown.get(p.getUniqueId())) {
-                                    deflect.put(p.getUniqueId(), p);
+                                    activateDeflect(p);
                                     delfect_cooldown.put(p.getUniqueId(), true);
                                 }
                                 Bukkit.getScheduler().runTaskLater(plugin, () -> delfect_cooldown.put(p.getUniqueId(), false), 35 * 20);
@@ -498,7 +498,7 @@ public class Listeners implements Listener {
                                 if (abilties.get(p.getUniqueId()).equals("Dashing")) {
                                     dash(p);
                                 } else if (abilties.get(p.getUniqueId()).equals("Deflecting")) {
-                                    deflect.put(p.getUniqueId(), p);
+                                    activateDeflect(p);
                                 } else if (abilties.get(p.getUniqueId()).equals("FireBall")) {
                                     Fireball(p);
                                 }
@@ -510,7 +510,7 @@ public class Listeners implements Listener {
                                 if (abilties.get(p.getUniqueId()).equals("Dashing")) {
                                     dash(p);
                                 } else if (abilties.get(p.getUniqueId()).equals("Deflecting")) {
-                                    deflect.put(p.getUniqueId(), p);
+                                    activateDeflect(p);
                                 } else if (abilties.get(p.getUniqueId()).equals("FireBall")) {
                                     Fireball(p);
                                 } else if (abilties.get(p.getUniqueId()).equals("FireCircle")) {
@@ -616,6 +616,7 @@ public class Listeners implements Listener {
         }
         if (!levitating_cooldown.get(p.getUniqueId())) {
             p.addPotionEffect(levitationEffect);
+            p.sendMessage(ChatColor.GREEN + "Levitation activated.");
             levitating_cooldown.put(p.getUniqueId(), true);
         } else {
             return;
@@ -638,20 +639,22 @@ public class Listeners implements Listener {
 
     private void SlowFalling(Player p) {
         double radius = 5.0;
+        List<Player> affectedPlayers = new ArrayList<>();
+        if (slowfalling.get(p.getUniqueId())) {
+            p.sendMessage(ChatColor.RED + "Slow Falling is on cooldown.");
+            return;
+        }
+
         for (Entity entity : p.getWorld().getNearbyEntities(p.getLocation(), radius, radius, radius)) {
             if (entity instanceof Player) {
                 Player nearbyPlayer = (Player) entity;
                 if (nearbyPlayer != p) {
                     PotionEffect levitationEffect = new PotionEffect(PotionEffectType.SLOW_FALLING, 200, 0);
                     if (nearbyPlayer.hasPotionEffect(levitationEffect.getType())) {
-                        return;
+                        continue;
                     }
-                    if (!slowfalling.get(p.getUniqueId())) {
-                        nearbyPlayer.addPotionEffect(levitationEffect);
-                        slowfalling.put(p.getUniqueId(), true);
-                    } else {
-                        return;
-                    }
+                    nearbyPlayer.addPotionEffect(levitationEffect);
+                    affectedPlayers.add(nearbyPlayer);
                     new BukkitRunnable() {
                         int cooldownTimer = 25;
 
@@ -668,20 +671,28 @@ public class Listeners implements Listener {
                 }
             }
         }
+        if (!affectedPlayers.isEmpty()) {
+            slowfalling.put(p.getUniqueId(), true);
+        }
+        sendAffectedPlayersMessage(p, affectedPlayers, "Slow Falling");
     }
 
     public void Launch(Player p) {
         double launchHeight = 150.0;
         double radius = 10.0;
+        List<Player> affectedPlayers = new ArrayList<>();
         if (!launch_cooldown.get(p.getUniqueId())) {
             for (Entity entity : p.getWorld().getNearbyEntities(p.getLocation(), radius, radius, radius)) {
                 if (entity != p) {
                     entity.setVelocity(entity.getVelocity().setY(launchHeight / 20.0));
+                    if (entity instanceof Player) {
+                        affectedPlayers.add((Player) entity);
+                    }
                 }
             }
+            sendAffectedPlayersMessage(p, affectedPlayers, "Launch");
             launch_cooldown.put(p.getUniqueId(), true);
-        }
-        if (launch_cooldown.get(p.getUniqueId())) {
+        } else {
             p.sendMessage("Launch is on Cooldown!");
         }
 
@@ -703,6 +714,7 @@ public class Listeners implements Listener {
     public void DoubleJump(Player p) {
         if (!Jump_cooldown.get(p.getUniqueId())) {
             p.setVelocity(p.getVelocity().setY(0.9));
+            p.sendMessage(ChatColor.GREEN + "Double Jump activated.");
             Jump_cooldown.put(p.getUniqueId(), true);
         } else {
             p.sendMessage(ChatColor.RED + "Double Jump is on Cooldown!");
@@ -777,6 +789,7 @@ public class Listeners implements Listener {
             int countdown = 40;
             int sccountdown = 20;
             boolean one_time_Water = false;
+            boolean announced = false;
             boolean dispear = false;
             Location new_player_loc;
             Location waterLocation;
@@ -815,13 +828,19 @@ public class Listeners implements Listener {
                         new_player_loc = player.getLocation();
                     }
                     double radius = 5.0;
+                    List<Player> affectedPlayers = new ArrayList<>();
                     for (Entity entity : player.getWorld().getNearbyEntities(new_player_loc, radius, radius, radius)) {
                         if (entity instanceof Player) {
                             Player nearbyPlayer = (Player) entity;
                             if (nearbyPlayer != player) {
                                 nearbyPlayer.damage(3.0);
+                                affectedPlayers.add(nearbyPlayer);
                             }
                         }
+                    }
+                    if (!announced) {
+                        sendAffectedPlayersMessage(player, affectedPlayers, "Water");
+                        announced = true;
                     }
                     countdown--;
                 }
@@ -902,21 +921,23 @@ public class Listeners implements Listener {
 
     private void Slowness(Player p) {
         double radius = 5.0;
+        List<Player> affectedPlayers = new ArrayList<>();
+        if (slowness.get(p.getUniqueId())) {
+            p.sendMessage(ChatColor.RED + "Slowness is on cooldown.");
+            return;
+        }
+
         for (Entity entity : p.getWorld().getNearbyEntities(p.getLocation(), radius, radius, radius)) {
             if (entity instanceof Player) {
                 Player nearbyPlayer = (Player) entity;
                 if (nearbyPlayer != p) {
                     PotionEffect levitationEffect = new PotionEffect(PotionEffectType.SLOW, 20 * 20, 0);
                     if (nearbyPlayer.hasPotionEffect(levitationEffect.getType())) {
-                        return;
+                        continue;
                     }
 
-                    if (!slowness.get(p.getUniqueId())) {
-                        nearbyPlayer.addPotionEffect(levitationEffect);
-                        slowness.put(p.getUniqueId(), true);
-                    } else {
-                        return;
-                    }
+                    nearbyPlayer.addPotionEffect(levitationEffect);
+                    affectedPlayers.add(nearbyPlayer);
                     new BukkitRunnable() {
                         int cooldownTimer = 35;
 
@@ -933,24 +954,30 @@ public class Listeners implements Listener {
                 }
             }
         }
+        if (!affectedPlayers.isEmpty()) {
+            slowness.put(p.getUniqueId(), true);
+        }
+        sendAffectedPlayersMessage(p, affectedPlayers, "Slowness");
     }
 
     private void Mining_Fatigue(Player p) {
         double radius = 5.0;
+        List<Player> affectedPlayers = new ArrayList<>();
+        if (mining_fatigue.get(p.getUniqueId())) {
+            p.sendMessage(ChatColor.RED + "Mining Fatigue is on cooldown.");
+            return;
+        }
+
         for (Entity entity : p.getWorld().getNearbyEntities(p.getLocation(), radius, radius, radius)) {
             if (entity instanceof Player) {
                 Player nearbyPlayer = (Player) entity;
                 if (nearbyPlayer != p) {
                     PotionEffect levitationEffect = new PotionEffect(PotionEffectType.SLOW_DIGGING, 30 * 20, 0);
                     if (nearbyPlayer.hasPotionEffect(levitationEffect.getType())) {
-                        return;
+                        continue;
                     }
-                    if (!mining_fatigue.get(p.getUniqueId())) {
-                        nearbyPlayer.addPotionEffect(levitationEffect);
-                        mining_fatigue.put(p.getUniqueId(), true);
-                    } else {
-                        return;
-                    }
+                    nearbyPlayer.addPotionEffect(levitationEffect);
+                    affectedPlayers.add(nearbyPlayer);
                     new BukkitRunnable() {
                         int cooldownTimer = 60;
 
@@ -968,31 +995,37 @@ public class Listeners implements Listener {
                 }
             }
         }
+        if (!affectedPlayers.isEmpty()) {
+            mining_fatigue.put(p.getUniqueId(), true);
+        }
+        sendAffectedPlayersMessage(p, affectedPlayers, "Mining Fatigue");
     }
 
     private void SlowTime(Player p) {
+        List<Player> affectedPlayers = new ArrayList<>();
+        if (slowtime.get(p.getUniqueId())) {
+            p.sendMessage(ChatColor.RED + "Slow Time is on cooldown.");
+            return;
+        }
+
         for (Player players : Bukkit.getOnlinePlayers()) {
             if (players != p) {
                 PotionEffect Slow_Dig = new PotionEffect(PotionEffectType.SLOW_DIGGING, 15 * 20, 0);
                 PotionEffect Slow_effect = new PotionEffect(PotionEffectType.SLOW, 15 * 20, 0);
                 PotionEffect Slow_fall = new PotionEffect(PotionEffectType.SLOW_FALLING, 15 * 20, 0);
                 if (players.hasPotionEffect(Slow_Dig.getType())) {
-                    return;
+                    continue;
                 }
                 if (players.hasPotionEffect(Slow_effect.getType())) {
-                    return;
+                    continue;
                 }
                 if (players.hasPotionEffect(Slow_fall.getType())) {
-                    return;
+                    continue;
                 }
-                if (!slowtime.get(p.getUniqueId())) {
-                    players.addPotionEffect(Slow_Dig);
-                    players.addPotionEffect(Slow_effect);
-                    players.addPotionEffect(Slow_fall);
-                    slowtime.put(p.getUniqueId(), true);
-                } else {
-                    return;
-                }
+                players.addPotionEffect(Slow_Dig);
+                players.addPotionEffect(Slow_effect);
+                players.addPotionEffect(Slow_fall);
+                affectedPlayers.add(players);
                 new BukkitRunnable() {
                     int cooldownTimer = 60 * 5;
 
@@ -1009,6 +1042,10 @@ public class Listeners implements Listener {
                 }.runTaskTimer(plugin, 15 * 20, 20L);
             }
         }
+        if (!affectedPlayers.isEmpty()) {
+            slowtime.put(p.getUniqueId(), true);
+        }
+        sendAffectedPlayersMessage(p, affectedPlayers, "Slow Time");
     }
 
     @EventHandler
@@ -1034,37 +1071,40 @@ public class Listeners implements Listener {
     }
 
     private void FireCircleDamage(Player p, int radius) {
-        if (!Circle_Damage.get(p.getUniqueId())) {
-            Location playerLocation = p.getLocation();
-            for (double theta = 0; theta < 2 * Math.PI; theta += Math.PI / 16) {
-                double x = radius * Math.cos(theta);
-                double z = radius * Math.sin(theta);
-                Location circleLocation = playerLocation.clone().add(x, 0, z);
-                if (circleLocation.getBlock().getType() == Material.AIR || circleLocation.getBlock().getType() == Material.GRASS) {
-                    circleLocation.getBlock().setType(Material.FIRE);
-                }
+        if (Circle_Damage.get(p.getUniqueId())) {
+            p.sendMessage(ChatColor.RED + "Fire Circle is on cooldown.");
+            return;
+        }
+
+        Location playerLocation = p.getLocation();
+        for (double theta = 0; theta < 2 * Math.PI; theta += Math.PI / 16) {
+            double x = radius * Math.cos(theta);
+            double z = radius * Math.sin(theta);
+            Location circleLocation = playerLocation.clone().add(x, 0, z);
+            if (circleLocation.getBlock().getType() == Material.AIR || circleLocation.getBlock().getType() == Material.GRASS) {
+                circleLocation.getBlock().setType(Material.FIRE);
             }
         }
-        if (!Circle_Damage.get(p.getUniqueId())) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    for (Entity entity : p.getWorld().getNearbyEntities(p.getLocation(), radius, radius, radius)) {
-                        if (entity instanceof Player) {
-                            Player nearbyPlayer = (Player) entity;
-                            if (nearbyPlayer != p) {
-                                nearbyPlayer.damage(2);
-                                if (!Circle_Damage.get(p.getUniqueId())) {
-                                    cancel();
-                                }
+
+        p.sendMessage(ChatColor.GREEN + "Fire Circle activated.");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for (Entity entity : p.getWorld().getNearbyEntities(p.getLocation(), radius, radius, radius)) {
+                    if (entity instanceof Player) {
+                        Player nearbyPlayer = (Player) entity;
+                        if (nearbyPlayer != p) {
+                            nearbyPlayer.damage(2);
+                            if (!Circle_Damage.get(p.getUniqueId())) {
+                                cancel();
                             }
                         }
                     }
                 }
-            }.runTaskTimer(plugin, 0, 20);
-        }
+            }
+        }.runTaskTimer(plugin, 0, 20);
         Circle_Damage.put(p.getUniqueId(), true);
-        Bukkit.getScheduler().runTaskLater(plugin, () -> Circle_Damage.put(p.getUniqueId(), true), 120 * 20);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> Circle_Damage.put(p.getUniqueId(), false), 120 * 20);
     }
 
     private void dash(Player player) {
@@ -1090,22 +1130,31 @@ public class Listeners implements Listener {
             currentLocation.add(playerDirection);
         }
 
+        player.sendMessage(ChatColor.GREEN + "Dash activated.");
+    }
+
+    private void activateDeflect(Player p) {
+        deflect.put(p.getUniqueId(), p);
+        p.sendMessage(ChatColor.GREEN + "Deflect activated.");
     }
 
     private void Jerk_around(Player p) {
         Water_place_center = p.getLocation();
         placeWaterAroundPlayer(Water_place_center,6, Material.WATER);
         double radius = 6.0;
+        List<Player> affectedPlayers = new ArrayList<>();
         for (Entity entity : p.getWorld().getNearbyEntities(p.getLocation(), radius, radius, radius)) {
             if (entity instanceof Player) {
                 Player nearbyPlayer = (Player) entity;
                 if (nearbyPlayer != p) {
                     if (!Jerk_Radius.contains(nearbyPlayer)){
                         Jerk_Radius.add(nearbyPlayer);
+                        affectedPlayers.add(nearbyPlayer);
                     }
                 }
             }
         }
+        sendAffectedPlayersMessage(p, affectedPlayers, "Jerk");
         startCircleMovement(p, 6.0);
         new BukkitRunnable() {
             @Override
@@ -1133,6 +1182,9 @@ public class Listeners implements Listener {
             fireball.setVelocity(facingDirection.multiply(3.5));
 
             fireball_cooldown.put(p.getUniqueId(), true);
+            p.sendMessage(ChatColor.GREEN + "Fire Ball launched.");
+        } else {
+            p.sendMessage(ChatColor.RED + "Fire Ball is on cooldown.");
         }
         Bukkit.getScheduler().runTaskLater(plugin, () -> fireball_cooldown.put(p.getUniqueId(), false), 40 * 20);
     }
@@ -1159,6 +1211,27 @@ public class Listeners implements Listener {
 
         playerHead.setItemMeta(skullMeta);
         return playerHead;
+    }
+
+    private void sendAffectedPlayersMessage(Player caster, List<Player> affectedPlayers, String effectName) {
+        if (affectedPlayers.isEmpty()) {
+            caster.sendMessage(ChatColor.YELLOW + "No players were affected by " + effectName + ".");
+            return;
+        }
+
+        String verb = affectedPlayers.size() == 1 ? " has" : " have";
+        caster.sendMessage(ChatColor.GREEN + formatPlayerNames(affectedPlayers) + verb + " been given " + effectName + ".");
+    }
+
+    private String formatPlayerNames(List<Player> players) {
+        StringBuilder names = new StringBuilder();
+        for (int i = 0; i < players.size(); i++) {
+            if (i > 0) {
+                names.append(", ");
+            }
+            names.append(players.get(i).getName());
+        }
+        return names.toString();
     }
 
     private void startCircleMovement(Player centerPlayer, double radius) {
@@ -1209,6 +1282,7 @@ public class Listeners implements Listener {
 
     public void suffocation(Player p) {
         double radius = 5.0;
+        List<Player> affectedPlayers = new ArrayList<>();
 
         for (Entity entity : p.getWorld().getNearbyEntities(p.getLocation(), radius, radius, radius)) {
             if (entity instanceof Player) {
@@ -1216,6 +1290,7 @@ public class Listeners implements Listener {
 
                 if (nearbyPlayer != p) {
                     if (suffocationStatus.get(p) != null && suffocationStatus.get(p)) {
+                        p.sendMessage(ChatColor.RED + "Suffocation is on cooldown.");
                         return;
                     }
 
@@ -1240,6 +1315,7 @@ public class Listeners implements Listener {
 
                         bedrockLocations.put(p, playerBedrockLocations);
                         suffocationStatus.put(p, true);
+                        affectedPlayers.add(nearbyPlayer);
 
                         new BukkitRunnable() {
                             @Override
@@ -1263,6 +1339,7 @@ public class Listeners implements Listener {
                 }
             }
         }
+        sendAffectedPlayersMessage(p, affectedPlayers, "Suffocation");
     }
 
     private void removeBedrockBlocks(Player p) {
