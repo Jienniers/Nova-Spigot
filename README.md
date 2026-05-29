@@ -282,7 +282,7 @@ N R N
 
 ```bash
 # Clone repository
-git clone https://github.com/USERNAME/Nova-Spigot.git
+git clone https://github.com/Jienniers/Nova-Spigot.git
 
 # Open project
 cd Nova-Spigot
@@ -348,7 +348,7 @@ Because this is an older client project, a few technical limitations are worth k
 
 ## 📄 License
 
-I have not included a license file yet. Add a `LICENSE` file if you want to publish this project under MIT or another open-source license.
+I have not included a license file yet.
 
 ---
 
