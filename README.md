@@ -354,6 +354,4 @@ I have not included a license file yet.
 
 ## 👤 Author
 
-Built and maintained by [@Jienniers](https://github.com/Jienniers)
-
-⭐ Feel free to star the repository if you found it useful.
+Built by [@Jienniers](https://github.com/Jienniers)
