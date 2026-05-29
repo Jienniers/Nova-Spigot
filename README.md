@@ -85,7 +85,7 @@ Wind Trim focuses on movement, launching, and aerial disruption.
 
 | Level | Ability | Command | Description |
 | --- | --- | --- | --- |
-| 1 | No active ability | None | Wind Trim has no coded level 1 ability. |
+| 1 | No active ability | None | Level 1 does not currently unlock an active Wind ability. |
 | 2 | Levitation | `/novaselect levitate` | Gives the player Levitation for a short time. |
 | 3 | Slow Falling | `/novaselect slowfall` | Gives nearby enemy players Slow Falling. |
 | 4 | Launch | `/novaselect launch` | Launches nearby entities upward. |
@@ -130,7 +130,7 @@ Time Trim focuses on haste, speed, and slowing enemies.
 
 | Level | Ability | Command | Description |
 | --- | --- | --- | --- |
-| 1 | No active ability | None | Time Trim has no coded level 1 ability. |
+| 1 | No active ability | None | Level 1 does not currently unlock an active Time ability. |
 | 2 | Haste | None | Gives Fast Digging. |
 | 3 | Slowness | `/novaselect slowness` | Gives nearby enemies Slowness. |
 | 4 | Mining Fatigue | `/novaselect slowmining` | Gives nearby enemies Mining Fatigue. |
@@ -145,7 +145,7 @@ Power Trim is mostly passive and does not use `/novaselect`.
 
 | Level | Ability | Description |
 | --- | --- | --- |
-| 1 | No active ability | Power Trim has no coded level 1 ability. |
+| 1 | No active ability | Level 1 does not currently unlock a Power ability. |
 | 2 | Protection | Adds Protection III to armor. |
 | 3 | Strength | Gives Strength. |
 | 4 | Extra Health | Gives additional max health. |
@@ -328,7 +328,15 @@ Nova Plugin Has Been Started!
 
 ## ⚠️ Notes
 
-This is an older experimental codebase, so a few behaviors are worth knowing:
+### Project History
+
+This is an old client project I made in 2023. It may contain bugs, rough code, and unfinished behavior, and I am not actively maintaining it anymore.
+
+When I made this plugin, I did not have much knowledge of Git, so the repository may not have meaningful commit history. This project represents an older version of my coding skills and is kept mainly as an archive/reference.
+
+### Technical Notes
+
+Because this is an older client project, a few technical limitations are worth knowing:
 
 - Player levels and trims are stored in memory, not in a config or database.
 - Data may reset when the server restarts.
@@ -340,12 +348,12 @@ This is an older experimental codebase, so a few behaviors are worth knowing:
 
 ## 📄 License
 
-No license file is currently included. Add a `LICENSE` file if you want to publish this project under MIT or another open-source license.
+I have not included a license file yet. Add a `LICENSE` file if you want to publish this project under MIT or another open-source license.
 
 ---
 
 ## 👤 Author
 
-Made with passion by the Nova Spigot project author.
+Built and maintained by [@Jienniers](https://github.com/Jienniers)
 
 ⭐ Feel free to star the repository if you found it useful.
