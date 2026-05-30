@@ -10,17 +10,37 @@ The plugin plays like a trim-powered lifesteal system: kills make you stronger, 
 
 ### Project Context
 
-Nova Spigot was one of my first client projects. The goal was to build a custom Minecraft PvP plugin where players could progress through levels, unlock trim-based abilities, and experience a high-risk gameplay loop where repeated deaths could eventually lead to a ban.
+Nova Spigot was one of my first freelance client projects, built for a Fiverr client in 2023. The client wanted a custom Minecraft PvP plugin that combined armor trims, player progression, abilities, and a high-risk level system.
 
-The main client requirement was to create multiple armor-trim classes with separate level progression. Each trim needed its own identity, commands, and abilities, while still fitting into one shared level system. The challenge was not just making one ability work, but organizing many trims, levels, cooldowns, commands, recipes, and combat effects into a single playable plugin.
+This project is not actively maintained anymore, and it represents an older version of my coding skills. I am keeping it here as a portfolio/archive project because it shows real client work, practical plugin development, and my early experience turning a gameplay idea into a working server feature.
+
+### Client Requirements
+
+The client instructed me to build a plugin with multiple armor-trim classes, separate level progression, unlockable abilities, ability commands, custom recipes, and a level system where players could be banned after dropping too low. My job was to turn those requirements into a working Paper/Spigot plugin.
+
+### What I Built
+
+I built a trim-based level system where players are assigned one of several armor-trim classes and unlock abilities as they progress from level 1 to level 6. The plugin includes random trim assignment, custom ability selection commands, sword-triggered abilities, level gain/loss from PvP, custom crafting recipes, a trim reroll item, and a revive item for banned players.
+
+### The Main Challenge
+
+The main challenge was scale. I already understood how to code Minecraft plugin mechanics, but this project required making that knowledge practical across multiple trims, multiple levels, many different abilities, cooldowns, player events, commands, recipes, and combat effects. Instead of building one isolated feature, I had to connect many systems together into one playable plugin.
+
+### What I Delivered & Outcome
+
+I delivered a working Paper/Spigot plugin that matched the client's requested system: players start at level 3, gain levels by killing, lose levels by dying, get banned at level 0, and unlock different powers based on their trim and level.
+
+For me, this project was early proof that I could take a real freelance requirement, break it into systems, and deliver a usable plugin for a client.
+
+### What I Learned
 
 This project helped me turn the Minecraft plugin concepts I already knew into something larger and more practical. I learned how to structure a bigger feature set, connect gameplay systems together, manage ability selection, handle player events, and think more carefully about how custom mechanics feel inside an actual server environment.
 
+I also learned more about working from a client's perspective: understanding the requested player experience, translating it into technical systems, and making decisions around commands, progression, recipes, and ability behavior.
+
 ### Project History
 
-This is an old client project I made in 2023. It may contain bugs, rough code, and unfinished behavior, and I am not actively maintaining it anymore.
-
-When I made this plugin, I did not have much knowledge of Git, so the repository may not have meaningful commit history. This project represents an older version of my coding skills and is kept mainly as an archive/reference.
+As an early project, the codebase reflects where I was as a developer at the time. The commit history is limited due to my unfamiliarity with Git at that stage — something I've since fully adopted in all my work.
 
 ### Technical Notes
 
