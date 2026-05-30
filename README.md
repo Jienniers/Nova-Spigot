@@ -84,23 +84,23 @@ When a player joins the server, Nova gives them:
 
 Available trims:
 
-| Trim | Armor Trim Visual | Gameplay Style |
-| --- | --- | --- |
-| Wind Trim | Gold Vex trim | Mobility, launching, aerial control |
-| Water Trim | Gold Eye trim | Water control, trapping, area damage |
-| Fire Trim | Gold Wild trim | Fire, explosions, dashing, deflecting |
-| Time Trim | Gold Dune trim | Haste, slows, mining fatigue, time control |
-| Power Trim | Gold Rib trim | Strength, protection, regeneration, explosive power |
+| Trim       | Armor Trim Visual | Gameplay Style                                      |
+| ---------- | ----------------- | --------------------------------------------------- |
+| Wind Trim  | Gold Vex trim     | Mobility, launching, aerial control                 |
+| Water Trim | Gold Eye trim     | Water control, trapping, area damage                |
+| Fire Trim  | Gold Wild trim    | Fire, explosions, dashing, deflecting               |
+| Time Trim  | Gold Dune trim    | Haste, slows, mining fatigue, time control          |
+| Power Trim | Gold Rib trim     | Strength, protection, regeneration, explosive power |
 
 ### Level Rules
 
-| Event | Result |
-| --- | --- |
-| Player joins for the first time | Starts at level 3 |
-| Player dies | Loses 1 level |
-| Player kills another player | Gains 1 level |
-| Player reaches level 6 | Max level reached |
-| Player reaches level 0 | Banned from the server |
+| Event                           | Result                 |
+| ------------------------------- | ---------------------- |
+| Player joins for the first time | Starts at level 3      |
+| Player dies                     | Loses 1 level          |
+| Player kills another player     | Gains 1 level          |
+| Player reaches level 6          | Max level reached      |
+| Player reaches level 0          | Banned from the server |
 
 ---
 
@@ -131,14 +131,14 @@ If no ability is selected, the plugin usually activates the strongest/default ab
 
 Wind Trim focuses on movement, launching, and aerial disruption.
 
-| Level | Ability | Command | Description |
-| --- | --- | --- | --- |
-| 1 | No active ability | None | Level 1 does not currently unlock an active Wind ability. |
-| 2 | Levitation | `/novaselect levitate` | Gives the player Levitation for a short time. |
-| 3 | Slow Falling | `/novaselect slowfall` | Gives nearby enemy players Slow Falling. |
-| 4 | Launch | `/novaselect launch` | Launches nearby entities upward. |
-| 5 | Double Jump | `/novaselect jumpboost` | Boosts the player upward. |
-| 6 | Black Hole | `/novaselect blackhole` | Creates a black hole above the player, pulls nearby players upward, and damages them. |
+| Level | Ability           | Command                 | Description                                                                           |
+| ----- | ----------------- | ----------------------- | ------------------------------------------------------------------------------------- |
+| 1     | No active ability | None                    | Level 1 does not currently unlock an active Wind ability.                             |
+| 2     | Levitation        | `/novaselect levitate`  | Gives the player Levitation for a short time.                                         |
+| 3     | Slow Falling      | `/novaselect slowfall`  | Gives nearby enemy players Slow Falling.                                              |
+| 4     | Launch            | `/novaselect launch`    | Launches nearby entities upward.                                                      |
+| 5     | Double Jump       | `/novaselect jumpboost` | Boosts the player upward.                                                             |
+| 6     | Black Hole        | `/novaselect blackhole` | Creates a black hole above the player, pulls nearby players upward, and damages them. |
 
 ---
 
@@ -146,14 +146,14 @@ Wind Trim focuses on movement, launching, and aerial disruption.
 
 Water Trim focuses on water effects, trapping, and area control.
 
-| Level | Ability | Command | Description |
-| --- | --- | --- | --- |
-| 1 | Aqua Affinity | None | Adds Aqua Affinity to the helmet. |
-| 2 | Water Breathing | None | Gives Water Breathing. |
-| 3 | Dolphin's Grace | None | Gives Water Breathing and Dolphin's Grace. |
-| 4 | Suffocation | `/novaselect suffocate` | Traps nearby players in temporary bedrock. |
-| 5 | Water Placing | `/novaselect water` | Places water around the player and damages nearby enemies. |
-| 6 | Jerk | `/novaselect jerk` | Pulls nearby players into a rotating water area and damages them. |
+| Level | Ability         | Command                 | Description                                                       |
+| ----- | --------------- | ----------------------- | ----------------------------------------------------------------- |
+| 1     | Aqua Affinity   | None                    | Adds Aqua Affinity to the helmet.                                 |
+| 2     | Water Breathing | None                    | Gives Water Breathing.                                            |
+| 3     | Dolphin's Grace | None                    | Gives Water Breathing and Dolphin's Grace.                        |
+| 4     | Suffocation     | `/novaselect suffocate` | Traps nearby players in temporary bedrock.                        |
+| 5     | Water Placing   | `/novaselect water`     | Places water around the player and damages nearby enemies.        |
+| 6     | Jerk            | `/novaselect jerk`      | Pulls nearby players into a rotating water area and damages them. |
 
 ---
 
@@ -161,14 +161,14 @@ Water Trim focuses on water effects, trapping, and area control.
 
 Fire Trim focuses on fire damage, dashing, deflecting, and explosions.
 
-| Level | Ability | Command | Description |
-| --- | --- | --- | --- |
-| 1 | Fire Resistance | None | Gives Fire Resistance. |
-| 2 | Fire Circle | None | Creates a ring of fire around the player. |
-| 3 | Dash | `/novaselect dash` | Teleports the player forward and leaves fire behind. |
-| 4 | Deflect | `/novaselect deflect` | Temporarily blocks nearby incoming player damage. |
-| 5 | Fire Ball | `/novaselect fireball` | Launches an explosive fireball. |
-| 6 | Fire Circle Damage | `/novaselect firecircle` | Creates a damaging fire circle around the player. |
+| Level | Ability            | Command                  | Description                                          |
+| ----- | ------------------ | ------------------------ | ---------------------------------------------------- |
+| 1     | Fire Resistance    | None                     | Gives Fire Resistance.                               |
+| 2     | Fire Circle        | None                     | Creates a ring of fire around the player.            |
+| 3     | Dash               | `/novaselect dash`       | Teleports the player forward and leaves fire behind. |
+| 4     | Deflect            | `/novaselect deflect`    | Temporarily blocks nearby incoming player damage.    |
+| 5     | Fire Ball          | `/novaselect fireball`   | Launches an explosive fireball.                      |
+| 6     | Fire Circle Damage | `/novaselect firecircle` | Creates a damaging fire circle around the player.    |
 
 ---
 
@@ -176,14 +176,14 @@ Fire Trim focuses on fire damage, dashing, deflecting, and explosions.
 
 Time Trim focuses on haste, speed, and slowing enemies.
 
-| Level | Ability | Command | Description |
-| --- | --- | --- | --- |
-| 1 | No active ability | None | Level 1 does not currently unlock an active Time ability. |
-| 2 | Haste | None | Gives Fast Digging. |
-| 3 | Slowness | `/novaselect slowness` | Gives nearby enemies Slowness. |
-| 4 | Mining Fatigue | `/novaselect slowmining` | Gives nearby enemies Mining Fatigue. |
-| 5 | Speed | None | Gives Speed. |
-| 6 | Slow Time | `/novaselect slowtime` | Gives other online players Slowness, Mining Fatigue, and Slow Falling. |
+| Level | Ability           | Command                  | Description                                                            |
+| ----- | ----------------- | ------------------------ | ---------------------------------------------------------------------- |
+| 1     | No active ability | None                     | Level 1 does not currently unlock an active Time ability.              |
+| 2     | Haste             | None                     | Gives Fast Digging.                                                    |
+| 3     | Slowness          | `/novaselect slowness`   | Gives nearby enemies Slowness.                                         |
+| 4     | Mining Fatigue    | `/novaselect slowmining` | Gives nearby enemies Mining Fatigue.                                   |
+| 5     | Speed             | None                     | Gives Speed.                                                           |
+| 6     | Slow Time         | `/novaselect slowtime`   | Gives other online players Slowness, Mining Fatigue, and Slow Falling. |
 
 ---
 
@@ -191,14 +191,14 @@ Time Trim focuses on haste, speed, and slowing enemies.
 
 Power Trim is mostly passive and does not use `/novaselect`.
 
-| Level | Ability | Description |
-| --- | --- | --- |
-| 1 | No active ability | Level 1 does not currently unlock a Power ability. |
-| 2 | Protection | Adds Protection III to armor. |
-| 3 | Strength | Gives Strength. |
-| 4 | Extra Health | Gives additional max health. |
-| 5 | Regeneration | Gives Regeneration. |
-| 6 | Explosion | Creates a large explosion and damages nearby players. |
+| Level | Ability           | Description                                           |
+| ----- | ----------------- | ----------------------------------------------------- |
+| 1     | No active ability | Level 1 does not currently unlock a Power ability.    |
+| 2     | Protection        | Adds Protection III to armor.                         |
+| 3     | Strength          | Gives Strength.                                       |
+| 4     | Extra Health      | Gives additional max health.                          |
+| 5     | Regeneration      | Gives Regeneration.                                   |
+| 6     | Explosion         | Creates a large explosion and damages nearby players. |
 
 ---
 
@@ -266,11 +266,11 @@ D H D
 N D N
 ```
 
-| Symbol | Ingredient |
-| --- | --- |
-| N | Netherite Ingot |
-| D | Diamond Block |
-| H | Heart of the Sea |
+| Symbol | Ingredient       |
+| ------ | ---------------- |
+| N      | Netherite Ingot  |
+| D      | Diamond Block    |
+| H      | Heart of the Sea |
 
 ---
 
@@ -287,12 +287,12 @@ H G H
 N A N
 ```
 
-| Symbol | Ingredient |
-| --- | --- |
-| N | Netherite Ingot |
-| A | Amethyst Shard |
-| H | Nether Star |
-| G | Ghast Tear |
+| Symbol | Ingredient      |
+| ------ | --------------- |
+| N      | Netherite Ingot |
+| A      | Amethyst Shard  |
+| H      | Nether Star     |
+| G      | Ghast Tear      |
 
 ---
 
@@ -309,11 +309,11 @@ R B R
 N R N
 ```
 
-| Symbol | Ingredient |
-| --- | --- |
-| N | Nether Star |
-| R | Redstone |
-| B | Beacon |
+| Symbol | Ingredient  |
+| ------ | ----------- |
+| N      | Nether Star |
+| R      | Redstone    |
+| B      | Beacon      |
 
 ---
 
@@ -364,13 +364,13 @@ Nova Plugin Has Been Started!
 
 ## 🛠️ Tech Stack
 
-| Part | Technology |
-| --- | --- |
-| Language | Java |
-| Server API | Paper API / Spigot API |
-| Minecraft Version | 1.20.1 |
-| Build Tool | Maven |
-| Plugin Type | Server-side Minecraft plugin |
+| Part              | Technology                   |
+| ----------------- | ---------------------------- |
+| Language          | Java                         |
+| Server API        | Paper API / Spigot API       |
+| Minecraft Version | 1.20.1                       |
+| Build Tool        | Maven                        |
+| Plugin Type       | Server-side Minecraft plugin |
 
 ---
 
