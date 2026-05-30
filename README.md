@@ -6,6 +6,34 @@ The plugin plays like a trim-powered lifesteal system: kills make you stronger, 
 
 ---
 
+## ⚠️ Notes
+
+### Project Context
+
+Nova Spigot was one of my first client projects. The goal was to build a custom Minecraft PvP plugin where players could progress through levels, unlock trim-based abilities, and experience a high-risk gameplay loop where repeated deaths could eventually lead to a ban.
+
+The main client requirement was to create multiple armor-trim classes with separate level progression. Each trim needed its own identity, commands, and abilities, while still fitting into one shared level system. The challenge was not just making one ability work, but organizing many trims, levels, cooldowns, commands, recipes, and combat effects into a single playable plugin.
+
+This project helped me turn the Minecraft plugin concepts I already knew into something larger and more practical. I learned how to structure a bigger feature set, connect gameplay systems together, manage ability selection, handle player events, and think more carefully about how custom mechanics feel inside an actual server environment.
+
+### Project History
+
+This is an old client project I made in 2023. It may contain bugs, rough code, and unfinished behavior, and I am not actively maintaining it anymore.
+
+When I made this plugin, I did not have much knowledge of Git, so the repository may not have meaningful commit history. This project represents an older version of my coding skills and is kept mainly as an archive/reference.
+
+### Technical Notes
+
+Because this is an older client project, a few technical limitations are worth knowing:
+
+- Player levels and trims are stored in memory, not in a config or database.
+- Data may reset when the server restarts.
+- The revive GUI tracks players banned during the current runtime.
+- Some abilities modify the world by placing water, fire, bedrock, black concrete, or explosions.
+- The plugin clears recipes on shutdown.
+
+---
+
 ## ✨ Features
 
 - Random trim/class assignment when a player joins
@@ -323,32 +351,6 @@ Nova Plugin Has Been Started!
 | Minecraft Version | 1.20.1 |
 | Build Tool | Maven |
 | Plugin Type | Server-side Minecraft plugin |
-
----
-
-## ⚠️ Notes
-
-### Project History
-
-This is an old client project I made in 2023. It may contain bugs, rough code, and unfinished behavior, and I am not actively maintaining it anymore.
-
-When I made this plugin, I did not have much knowledge of Git, so the repository may not have meaningful commit history. This project represents an older version of my coding skills and is kept mainly as an archive/reference.
-
-### Technical Notes
-
-Because this is an older client project, a few technical limitations are worth knowing:
-
-- Player levels and trims are stored in memory, not in a config or database.
-- Data may reset when the server restarts.
-- The revive GUI tracks players banned during the current runtime.
-- Some abilities modify the world by placing water, fire, bedrock, black concrete, or explosions.
-- The plugin clears recipes on shutdown.
-
----
-
-## 📄 License
-
-I have not included a license file yet.
 
 ---
 
